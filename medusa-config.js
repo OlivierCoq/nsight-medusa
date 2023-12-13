@@ -19,7 +19,7 @@ switch (process.env.NODE_ENV) {
 
 try {
   dotenv.config({ path: process.cwd() + "/" + ENV_FILE_NAME });
-} catch (e) {}
+} catch (e) { }
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =
@@ -28,8 +28,24 @@ const ADMIN_CORS =
 // CORS to avoid issues when consuming Medusa from a client
 const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
+
+/* DIGITAL OCEAN:
+  We'll switch between the two depending on the environment
+*/
+// production:
+const DB_USERNAME = process.env.DB_USERNAME
+const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_HOST = process.env.DB_HOST
+const DB_PORT = process.env.DB_PORT
+const DB_DATABASE = process.env.DB_DATABASE
+
 const DATABASE_URL =
-  process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
+  `postgres://${DB_USERNAME}:${DB_PASSWORD}` +
+  `@${DB_HOST}:${DB_PORT}/${DB_DATABASE}` || "postgres://localhost/medusa-starter-default";
+
+// local:
+// const DATABASE_URL =
+//   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
 
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
@@ -76,8 +92,13 @@ const projectConfig = {
   store_cors: STORE_CORS,
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
+  database_extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
   // Uncomment the following lines to enable REDIS
-  // redis_url: REDIS_URL
+  redis_url: REDIS_URL || process.env.REDIS_URL
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
