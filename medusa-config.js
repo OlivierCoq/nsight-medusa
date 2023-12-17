@@ -97,7 +97,7 @@ const projectConfig = {
       rejectUnauthorized: false,
     },
   },
-  Uncomment the following lines to enable REDIS
+  // Uncomment the following lines to enable REDIS
   redis_url: REDIS_URL || process.env.REDIS_URL
 };
 
