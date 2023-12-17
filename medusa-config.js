@@ -30,7 +30,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
 
 /* DIGITAL OCEAN:
-  We'll switch between the two depending on the environment
+  We'll switch between the two depending on the environment. Let's say we have a staging and a production environment.
 */
 // production:
 const DB_USERNAME = process.env.DB_USERNAME
